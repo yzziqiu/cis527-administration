@@ -1,0 +1,15 @@
+# remote connection remmina - ssh
+# static ip address
+# graphical 
+
+sudo apt-get install wireshark
+# wireshark
+# sudo wireshark
+
+sudo dpkg-reconfigure wireshark cis527
+sudo usermod -a -G wireshark cis527
+logout login
+
+
+sudo dhclient -r ens33
+# back to dhcp
