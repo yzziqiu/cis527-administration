@@ -1,0 +1,28 @@
+# on ubuntu
+ls -a
+cd .ssh
+ssh-keygen -t rsa
+cat id_rsa.pub
+cat id_rsa
+ssh-copy-id -?
+scp id_rsa.pub yisiqiu@cislinux.cis.ksu.edu:~/
+ssh yisiqiu@cislinux.cis.ksu.edu
+
+in cislinux machine
+cd .ssh
+ls //then you can see id_rsa.pub and authorized_keys2
+cat ~/id_rsa.pub >> authorized_keys2
+
+//on github you can also use ssh
+back to ubuntu
+in ~/.ssh
+nano config
+
+Host cis 
+IdentityFile ~/.ssh/id_rsa
+
+on mac
+cat .ssh/config
+
+on ubuntu 
+ssh cis
