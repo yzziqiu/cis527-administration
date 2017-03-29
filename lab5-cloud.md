@@ -1,4 +1,4 @@
-## Create Droplet
+## SSH key
 ##### on ubuntu client side
 ###### basic test
 ```shell
@@ -8,8 +8,8 @@ ssh-keygen -t rsa
 cat id_rsa.pub
 cat id_rsa
 ssh-copy-id -?
-scp id_rsa.pub yisiqiu@cislinux.cis.ksu.edu:~/
-ssh yisiqiu@cislinux.cis.ksu.edu
+scp id_rsa.pub yisiu@cislinux.cis.ksu.edu:~/
+ssh yisiu@cislinux.cis.ksu.edu
 
 connected to ssh 
 ```shell
@@ -34,19 +34,33 @@ cat .ssh/config
 
 on ubuntu 
 ssh cis
+## Create Droplet
+
 ```
-basically
-"cat ~/id_rsa.pub >> authorized_keys"
-
-
-
-ssh frontend
-netstat -peanut //show the ports
-nano /etc/ssh/sshd_config //change ports of ssh
-sudo ufw status //firewall
-
 ```shell
+cat ~/.ssh/id_rsa.pub | ssh root@[your.ip.address.here] "cat >> ~/.ssh/authorized_keys"
+ssh root@ip-address
+#ssh frontend
+netstat -peanut #show the ports
+nano /etc/ssh/sshd_config #change ports of ssh
+sudo ufw status #firewall
+```
+## Configuration
+on front end
+sudo nano /etc/ssh/sshd_config
+# change premitrootlogin to yes
+# change port to 22123
+# scp -P 22123 id_rsa.pub root@45.55.235.128:~/
+adduser cis527
+# root privileges
+usermod -aG sudo cis527
+
+# copy public key
+sudo ufw allow 22123
+ssh-copy-id -p 22123 cis527@104.13.125.149
 #####database
+```shell
+
 on backend 
 sudo apt-get update
 
@@ -136,4 +150,4 @@ su znc-admin
 cd ~
 no need for SSL
 
-```shell
+```
