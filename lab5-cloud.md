@@ -45,6 +45,7 @@ netstat -peanut #show the ports
 nano /etc/ssh/sshd_config #change ports of ssh
 sudo ufw status #firewall
 ```
+```shell
 ## Configuration
 on front end
 sudo nano /etc/ssh/sshd_config
@@ -58,7 +59,10 @@ usermod -aG sudo cis527
 # copy public key
 sudo ufw allow 22123
 ssh-copy-id -p 22123 cis527@104.13.125.149
+```
 #####database
+
+
 ```shell
 
 using your computer to generate and install the public key to front end
@@ -130,16 +134,19 @@ sudo ufw enable
 (or disable)
 ```
 
-##### timezone
-sudo dpkg-reconfigure tzdata
-
-##### ntp service
+#### timezone
+``` sudo dpkg-reconfigure tzdata
+```
+#### ntp service
+```shell
 sudo apt-get update
 sudo apt-get install ntp
 
+```
 
-
+#### mysql -server
 on backend
+``` shell
 sudo apt-get update
 
 sudo apt-get install mysql-server
@@ -209,6 +216,7 @@ sudo ufw status
 cd /var/www/html/
 sudo nano test.php
 ```
+##### phpmyadmin
 ```php
 <?php
   phpinfo()
