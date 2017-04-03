@@ -11,11 +11,11 @@ ssh-copy-id -?
 scp id_rsa.pub yisiu@cislinux.cis.ksu.edu:~/
 ssh yisiu@cislinux.cis.ksu.edu
 
-connected to ssh 
+connected to ssh
 ```shell
 on cislinux machine
 cd .ssh
-ls 
+ls
 cat ~/id_rsa.pub >> authorized_keys2
 ```
 
@@ -26,13 +26,13 @@ back to ubuntu
 in ~/.ssh
 nano config
 
-Host cis 
+Host cis
 IdentityFile ~/.ssh/id_rsa
 
 on mac
 cat .ssh/config
 
-on ubuntu 
+on ubuntu
 ssh cis
 ## Create Droplet
 
@@ -61,28 +61,125 @@ ssh-copy-id -p 22123 cis527@104.13.125.149
 #####database
 ```shell
 
-on backend 
+using your computer to generate and install the public key to front end
+manual method
+##### on your computer
+
+
+```shell
+ssh-add
+ssh-copy-id -p 22123 cis527@...ip
+cat ~/.ssh/id_rsa.pub
+```
+
+on front end, log in as root
+```shell
+su - cis527
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+nano ~/.ssh/authorized_keys
+# copy your id_rsa.pub
+chmod 600 ~/.ssh/authorized_keys
+```
+
+same for front end to back end
+"connection to agent" problem
+
+
+?every time
+eval "$(ssh-agent)"
+ssh-add
+
+sudo systemctl reload sshd
+
+
+Disable the Root Login via SSH
+using root
+sudo nano /etc/ssh/sshd_config
+PermitRootLogin no
+
+
+##### alias ssh backend
+```shell
+# contents of ~/.ssh/config
+Host backend
+    HostName 45.55.235.128
+    Port 22123
+    User cis527
+# private key only
+
+ssh -i ~/.ssh/id_rsa -p 22123 cis527@host.com
+```
+
+
+
+##### configure firewall
+```shell
+sudo ufw default deny incoming
+sudo ufw allow ssh
+sudo ufw allow 22123
+sudo ufw allow 80/http
+sudo ufw allow 443/https
+# lastly
+
+
+~ only on backend
+sudo ufw allow from 104.131.125.149 to any port 22123
+
+sudo ufw enable
+(or disable)
+```
+
+##### timezone
+sudo dpkg-reconfigure tzdata
+
+##### ntp service
+sudo apt-get update
+sudo apt-get install ntp
+
+
+
+on backend
 sudo apt-get update
 
 sudo apt-get install mysql-server
 no need to 'sudo mysql+secure+installation'
+
+//mysqld --initialize
+//delete the directory /var/lib/mysql and re-initialize the database
+ sudo apt-get purge mysql-server
+ mkdir -p /var/lib/mysql
+Note: If you want to change the default dir above for mysql data storage, then you need to add the new dir in the apparmor config as well in order to use.
+
+
+tar -zcvf ~/msql_backup.tar.gz /etc/mysql /var/lib/mysql
+sudo apt purge mysql-server mysql-client mysql-common mysql-server-core-5.7 mysql-client-core-5.7
+sudo rm -rfv /etc/mysql /var/lib/mysql
+sudo apt autoremove
+sudo apt autoclean
+
+sudo apt update    
+sudo apt install mysql-server mysql-client --fix-broken --fix-missing
+
+
+//something wrong here
 sudo mysql_install_db
 sudo nano /etc/mysql/my.conf
 
-cd /etc/mysql/mysql/conf/d/mysqld.conf
+cd /etc/mysql/mysql.conf.d/mysqld.cnf
 bind-address = (backend private IP address) from (127.0.0.1)
 
 sudo systemctl restart mysql
 netstat -peanut
 check the new ip address
 
-mysql -u root -p 
+mysql -u root -p
 enter database root password
 ```
 
 ```mysql
 CREATE DATABASE wordpress;
-CREATE USER 'wordpressuser'@'localhost' IDENTIFIED BY 'purpl321' 
+CREATE USER 'wordpressuser'@'localhost' IDENTIFIED BY 'password'
 //which is password
 GRANT ALL PRIVILEGES ON wordpress.
 
@@ -90,31 +187,39 @@ CREATEUSER 'wordpressuser'@'frontend private ip address' IDENTIFIED BY 'purpl321
 
 GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'frontend private ip address'
 
-FULSH PRIVILEGES;
+FLUSH PRIVILEGES;
 exit
 
-mysql -u wordpressuser -p 
+mysql -u wordpressuser -p
 
 ```
+```shell
 sudo ufw status
-sudo ufw allow from private...to any port 
+sudo ufw allow from private front end...to any port 3306
 
 on front end
 sudo apt-get install mysql-client
 mysql -u wordpressuser -h private backend -p
 
-sudo apt-get install apache2
 sudo apt-get install apache2 php php7.0-fpm php7.0-mysql
 
+enter front end public ip
 sudo ufw allow 80
 sudo ufw status
 cd /var/www/html/
 sudo nano test.php
+```
 ```php
 <?php
   phpinfo()
 ?>
 ```
+
+```shell
+sudo apt-get install libapache2-mod-php7.0
+frontend -ip /test.php
+
+wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 cd wordpress/
 ls
@@ -127,27 +232,53 @@ ls
 sudo cp wp-config-sample.php wp-config.php
 sudo nano wp-config.php
 database -> wordpress
-username -> wordpressusername
+username -> wordpressuser
 password
-hostname
-
+hostname backend - private
+```
 
 Blog
 username -> yisiqiu
 email:xx@hotmail.com
 ls -al
-sudo chown -R 
+/var/www$ sudo chown -R www-data:www-data html
 
 
-####ZNC
+##### SSL
+```shell
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
+
+common name http://104.131.125.149/ public front end
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+sudo nano /etc/apache2/conf-available/ssl-params.conf
+
+sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.bak
+
+sudo nano /etc/apache2/sites-available/default-ssl.conf
+
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+sudo ufw allow 'Apache Full'
+sudo ufw delete allow 'Apache'
+```
+#### ZNC
 ```shell
 sudo apt-get install build-essential libssl-dev libperl-dev pkg-config
-cd /usr/local...
-sudo make 
+cd /usr/local/src...
+sudo wget...
+sudo tar -xzvf
+./configure
+sudo make
 sudo make install
+
 adduser znc-admin
 su znc-admin
 cd ~
+
+sudo ufw allow from 104.131.125.149 to any port 5000
+```
 no need for SSL
 
-```
+ http://<droplet_ip>:<specified_port>
+ /server <znc_server_ip> 5000 yisiqiu:<pass>
