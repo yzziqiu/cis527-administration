@@ -60,10 +60,8 @@ usermod -aG sudo cis527
 sudo ufw allow 22123
 ssh-copy-id -p 22123 cis527@104.13.125.149
 ```
-#####database
+##### database
 
-
-```shell
 
 using your computer to generate and install the public key to front end
 manual method
@@ -92,6 +90,8 @@ same for front end to back end
 
 ?every time
 eval "$(ssh-agent)"
+
+```shell
 ssh-add
 
 sudo systemctl reload sshd
@@ -102,7 +102,7 @@ using root
 sudo nano /etc/ssh/sshd_config
 PermitRootLogin no
 
-
+```
 ##### alias ssh backend
 ```shell
 # contents of ~/.ssh/config
@@ -135,7 +135,8 @@ sudo ufw enable
 ```
 
 #### timezone
-``` sudo dpkg-reconfigure tzdata
+``` shell
+ sudo dpkg-reconfigure tzdata
 ```
 #### ntp service
 ```shell
