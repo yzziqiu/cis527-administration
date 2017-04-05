@@ -160,7 +160,7 @@ no need to 'sudo mysql+secure+installation'
 Note: If you want to change the default dir above for mysql data storage, then you need to add the new dir in the apparmor config as well in order to use.
 ```
 
-~~tar -zcvf ~/msql_backup.tar.gz /etc/mysql /var/lib/mysql
+~~tar -zcvf /msql_backup.tar.gz /etc/mysql /var/lib/mysql
 sudo apt purge mysql-server mysql-client mysql-common mysql-server-core-5.7 mysql-client-core-5.7
 sudo rm -rfv /etc/mysql /var/lib/mysql
 sudo apt autoremove
@@ -248,10 +248,12 @@ hostname backend - private
 ```
 ---
 Blog
+```shell
 username -> yisiqiu
 email:xx@hotmail.com
 ls -al
 /var/www$ sudo chown -R www-data:www-data html
+```
 ---
 
 ##### SSL
