@@ -115,7 +115,7 @@ Host backend
 ssh -i ~/.ssh/id_rsa -p 22123 cis527@host.com
 ```
 
-
+---
 
 ##### configure firewall
 ```shell
@@ -133,7 +133,7 @@ sudo ufw allow from 104.131.125.149 to any port 22123
 sudo ufw enable
 (or disable)
 ```
-
+---
 #### timezone
 ``` shell
  sudo dpkg-reconfigure tzdata
@@ -144,7 +144,7 @@ sudo apt-get update
 sudo apt-get install ntp
 
 ```
-
+---
 #### mysql -server
 on backend
 ``` shell
@@ -158,19 +158,20 @@ no need to 'sudo mysql+secure+installation'
  sudo apt-get purge mysql-server
  mkdir -p /var/lib/mysql
 Note: If you want to change the default dir above for mysql data storage, then you need to add the new dir in the apparmor config as well in order to use.
+```
 
-
-tar -zcvf ~/msql_backup.tar.gz /etc/mysql /var/lib/mysql
+~~tar -zcvf ~/msql_backup.tar.gz /etc/mysql /var/lib/mysql
 sudo apt purge mysql-server mysql-client mysql-common mysql-server-core-5.7 mysql-client-core-5.7
 sudo rm -rfv /etc/mysql /var/lib/mysql
 sudo apt autoremove
-sudo apt autoclean
+sudo apt autoclean~~
 
-sudo apt update    
-sudo apt install mysql-server mysql-client --fix-broken --fix-missing
+~~sudo apt update    
+sudo apt install mysql-server mysql-client --fix-broken --fix-missing~~
 
-
-//something wrong here
+---
+something wrong here
+```shell
 sudo mysql_install_db
 sudo nano /etc/mysql/my.conf
 
@@ -245,13 +246,13 @@ username -> wordpressuser
 password
 hostname backend - private
 ```
-
+---
 Blog
 username -> yisiqiu
 email:xx@hotmail.com
 ls -al
 /var/www$ sudo chown -R www-data:www-data html
-
+---
 
 ##### SSL
 ```shell
@@ -271,6 +272,8 @@ sudo nano /etc/apache2/sites-available/000-default.conf
 sudo ufw allow 'Apache Full'
 sudo ufw delete allow 'Apache'
 ```
+
+---
 #### ZNC
 ```shell
 sudo apt-get install build-essential libssl-dev libperl-dev pkg-config
