@@ -68,3 +68,9 @@ ldapsearch -LLL -H ldap://<OpenLDAP_IP_address>:389 -b "dc=cis527<your_eID>,dc=l
 4. Set up Wordpress
 5. Set up SSL Certificates
 6. Install & Configure ZNC
+
+
+#### Lab6 Application and File Server
+1. File server, application server and mapping drive for Windows and Linux
+2. virtual hosts for Apache
+
