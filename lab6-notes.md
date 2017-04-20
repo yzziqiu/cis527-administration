@@ -1,7 +1,5 @@
 
-cis527@CIS527U-yisiqiu:~$ sudo nano /etc/hosts
-[sudo] password for cis527: 
-=======
+
 ### Lab 6 notes
 RAID 0 faster
 RAID 1 security
@@ -132,6 +130,6 @@ post_max_size = 40M
 sudo apt-get install phpmyadmin
 
 ```
->>>>>>> update lab6
+
 login as root and password
 create new user and (As database)
