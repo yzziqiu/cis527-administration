@@ -45,3 +45,9 @@ restart-computer
 
 ```
 bcdedit /deletevalue safeboot
+
+
+safemode
+wbadmin get versions -backuptarget:E: -machine:
+wbadmin start systemstaterecovery -version:01/01/2014-2:36 -backuptarget:E: -machine
+authoritive
