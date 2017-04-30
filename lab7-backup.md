@@ -60,3 +60,38 @@ Active Instance set to "NTDS".
 ntdsutil: authoritative restore
 authoritative restore: restore object "cn=Alan Reid,ou=ExchangeUsers,dc=mynet,dc=lan"
 
+
+#linux
+
+
+#ganglia
+
+
+udp_recv_channel {
+  #mcast_join = 239.2.11.71 ## comment out
+  port = 8649
+  #bind = 239.2.11.71 ## comment out
+}
+
+/* You can specify as many tcp_accept_channels as you like to share
+   an xml description of the state of the cluster */
+tcp_accept_channel {
+  port = 8649
+}
+
+sudo vi /etc/ganglia/gmond.conf
+cluster {
+  name = "my cluster"     ## Cluster name
+  owner = "unspecified"
+  latlong = "unspecified"
+  url = "unspecified"
+
+
+udp_send_channel {
+  #mcast_join = 239.2.11.71   ## Comment
+  host = 1.1.1.1   ## IP address of master node
+  port = 8649
+  ttl = 1
+}
+
+
