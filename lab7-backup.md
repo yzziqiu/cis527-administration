@@ -47,7 +47,16 @@ restart-computer
 bcdedit /deletevalue safeboot
 
 
-safemode
+##### to log in safe mode
+.\Administrator
 wbadmin get versions -backuptarget:E: -machine:
-wbadmin start systemstaterecovery -version:01/01/2014-2:36 -backuptarget:E: -machine
-authoritive
+wbadmin start systemstaterecovery -version:01/01/2014-2:36 -backuptarget:E: -machine:
+
+##### authoritive
+
+C:\Users\admin>ntdsutil
+ntdsutil: activate instance ntds
+Active Instance set to "NTDS".
+ntdsutil: authoritative restore
+authoritative restore: restore object "cn=Alan Reid,ou=ExchangeUsers,dc=mynet,dc=lan"
+
